@@ -9,7 +9,7 @@ function App({ children }) {
   const router = createBrowserRouter([
     {path: '/', element: <Main />, children: [
       {path: '/', element: <Home />},
-      {path: '/images', element: <Images />},
+      {path: '/images', element: <Images />, loader: () => fetch('http://localhost:5000/user')},
       {path: '/videos', element: <Videos />}
     ]}
   ])

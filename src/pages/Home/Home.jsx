@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import UploadedImage from '../../components/UploadedImage/UploadedImage';
 import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [file, setFile] = useState('');
     const [image, setImage] = useState('');
     const [imagePublicId, setImagePublicId] = useState('');
+    const navigate = useNavigate();
     // console.log("File:", file);
     // console.log("Image:", image);
     // console.log("Image public id:", imagePublicId);
@@ -41,7 +43,7 @@ const Home = () => {
             const result = await axios.post('http://localhost:5000', {
                 image: image
             })
-            console.log(result.data);
+            // console.log(result.data);
             if(result?.data){
                 // image public_id
                 const image_public_id = result?.data.public_id;
@@ -50,14 +52,15 @@ const Home = () => {
                 // image secure_url (live link)
                 const image_secure_url = result?.data?.secure_url;
                 const user = { username, email, password, image_secure_url };
-                console.log(user);
+                // console.log(user);
                 try{
                     const res = await axios.post('http://localhost:5000/user', user)
                     const data = await res?.data;
-                    console.log(data);
+                    // console.log(data);
 
                     if(data?.insertedId){
                         toast.success('Successfully toasted!');
+                        navigate('/images');
                     }
 
                 }catch(err){
